@@ -75,55 +75,53 @@ module connector_bar_ridge() {
     
     top_offset = tmp_top_width > u_connector_wall_thickness ? tmp_top_width : u_connector_wall_thickness;
     
-    translate([0, 0, u_connector_height]) {
-        points = [
-            // bottom outer
-            [0, 0, 0],
-            [u_size, 0, 0],
-            [u_size, u_size, 0],
-            [0, u_size, 0],
+    points = [
+        // bottom outer
+        [0, 0, 0],
+        [u_size, 0, 0],
+        [u_size, u_size, 0],
+        [0, u_size, 0],
+    
+        // bottom inner
+        [bottom_offset, bottom_offset, 0],
+        [u_size - bottom_offset, bottom_offset, 0],
+        [u_size - bottom_offset, u_size - bottom_offset, 0],
+        [bottom_offset, u_size - bottom_offset, 0],
+    
+        // top outer
+        [0, 0, u_connector_ridge_height],
+        [u_size, 0, u_connector_ridge_height],
+        [u_size, u_size, u_connector_ridge_height],
+        [0, u_size, u_connector_ridge_height],
+    
+        // top inner
+        [top_offset, top_offset, u_connector_ridge_height],
+        [u_size - top_offset, top_offset, u_connector_ridge_height],
+        [u_size - top_offset, u_size - top_offset, u_connector_ridge_height],
+        [top_offset, u_size - top_offset, u_connector_ridge_height],
+    ];
+    faces = [
+        [0, 1, 5, 4], // bottom front
+        [2, 3, 7, 6], // bottom back
+        [3, 0, 4, 7], // bottom left
+        [1, 2, 6, 5], // bottom right
         
-            // bottom inner
-            [bottom_offset, bottom_offset, 0],
-            [u_size - bottom_offset, bottom_offset, 0],
-            [u_size - bottom_offset, u_size - bottom_offset, 0],
-            [bottom_offset, u_size - bottom_offset, 0],
+        [9, 8, 12, 13], // top front
+        [11, 10, 14, 15], // top back
+        [8, 11, 15, 12], // top left
+        [9, 13, 14, 10], // top right
         
-            // top outer
-            [0, 0, u_connector_ridge_height],
-            [u_size, 0, u_connector_ridge_height],
-            [u_size, u_size, u_connector_ridge_height],
-            [0, u_size, u_connector_ridge_height],
+        [0, 8, 9, 1], // front outer
+        [2, 10, 11, 3], // back outer
+        [0, 3, 11, 8], // left outer
+        [1, 9, 10, 2], // right outer
         
-            // top inner
-            [top_offset, top_offset, u_connector_ridge_height],
-            [u_size - top_offset, top_offset, u_connector_ridge_height],
-            [u_size - top_offset, u_size - top_offset, u_connector_ridge_height],
-            [top_offset, u_size - top_offset, u_connector_ridge_height],
-        ];
-        faces = [
-            [0, 1, 5, 4], // bottom front
-            [2, 3, 7, 6], // bottom back
-            [3, 0, 4, 7], // bottom left
-            [1, 2, 6, 5], // bottom right
-            
-            [9, 8, 12, 13], // top front
-            [11, 10, 14, 15], // top back
-            [8, 11, 15, 12], // top left
-            [9, 13, 14, 10], // top right
-            
-            [0, 8, 9, 1], // front outer
-            [2, 10, 11, 3], // back outer
-            [0, 3, 11, 8], // left outer
-            [1, 9, 10, 2], // right outer
-            
-            [4, 5, 13, 12], // front inner
-            [6, 7, 15, 14], // back inner
-            [12, 15, 7, 4], // left inner
-            [14, 13, 5, 6], // right inner
-        ];
-        polyhedron(points, faces);
-    }
+        [4, 5, 13, 12], // front inner
+        [6, 7, 15, 14], // back inner
+        [12, 15, 7, 4], // left inner
+        [14, 13, 5, 6], // right inner
+    ];
+    polyhedron(points, faces);
 }
 
 
@@ -151,55 +149,53 @@ module nxn_outer_wall(a, b, h) {
     
     top_offset = tmp_top_width > u_connector_wall_thickness ? tmp_top_width : u_connector_wall_thickness;
     
-    translate([0, 0, u_connector_height + u_connector_ridge_height]) {
-        points = [
-            // bottom outer
-            [0, 0, 0],
-            [size_a, 0, 0],
-            [size_a, size_b, 0],
-            [0, size_b, 0],
+    points = [
+        // bottom outer
+        [0, 0, 0],
+        [size_a, 0, 0],
+        [size_a, size_b, 0],
+        [0, size_b, 0],
+    
+        // bottom inner - TODO
+        [top_offset, top_offset, 0],
+        [size_a - top_offset, top_offset, 0],
+        [size_a - top_offset, size_b - top_offset, 0],
+        [top_offset, size_b - top_offset, 0],
+    
+        // top outer
+        [0, 0, height],
+        [size_a, 0, height],
+        [size_a, size_b, height],
+        [0, size_b, height],
+    
+        // top inner
+        [u_wall_thickness + u_connector_width, u_wall_thickness + u_connector_width, height],
+        [size_a - u_wall_thickness - u_connector_width, u_wall_thickness + u_connector_width, height],
+        [size_a - u_wall_thickness - u_connector_width, size_b - u_wall_thickness - u_connector_width, height],
+        [u_wall_thickness + u_connector_width, size_b - u_wall_thickness - u_connector_width, height],
+    ];
+    faces = [
+        [1, 5, 4, 0], // bottom front
+        [7, 6, 2, 3], // bottom back
+        [4, 7, 3, 0], // bottom left
+        [6, 5, 1, 2], // bottom right
         
-            // bottom inner - TODO
-            [top_offset, top_offset, 0],
-            [size_a - top_offset, top_offset, 0],
-            [size_a - top_offset, size_b - top_offset, 0],
-            [top_offset, size_b - top_offset, 0],
+        [8, 9, 1, 0], // front outer
+        [10, 11, 3, 2], // back outer
+        [11, 8, 0, 3], // left outer
+        [9, 10, 2, 1], // front outer
         
-            // top outer
-            [0, 0, height],
-            [size_a, 0, height],
-            [size_a, size_b, height],
-            [0, size_b, height],
+        [4, 5, 13, 12], // front inner
+        [15, 14, 6, 7], // back inner
+        [12, 15, 7, 4], // left inner
+        [14, 13, 5, 6], // right inner
         
-            // top inner
-            [u_wall_thickness + u_connector_width, u_wall_thickness + u_connector_width, height],
-            [size_a - u_wall_thickness - u_connector_width, u_wall_thickness + u_connector_width, height],
-            [size_a - u_wall_thickness - u_connector_width, size_b - u_wall_thickness - u_connector_width, height],
-            [u_wall_thickness + u_connector_width, size_b - u_wall_thickness - u_connector_width, height],
-        ];
-        faces = [
-            [1, 5, 4, 0], // bottom front
-            [7, 6, 2, 3], // bottom back
-            [4, 7, 3, 0], // bottom left
-            [6, 5, 1, 2], // bottom right
-            
-            [8, 9, 1, 0], // front outer
-            [10, 11, 3, 2], // back outer
-            [11, 8, 0, 3], // left outer
-            [9, 10, 2, 1], // front outer
-            
-            [4, 5, 13, 12], // front inner
-            [15, 14, 6, 7], // back inner
-            [12, 15, 7, 4], // left inner
-            [14, 13, 5, 6], // right inner
-            
-            [12, 13, 9, 8], // top front
-            [14, 15, 11, 10], // top back
-            [15, 12, 8, 11], // top left
-            [13, 14, 10, 9], // top right
-        ];
-        polyhedron(points, faces);
-    }
+        [12, 13, 9, 8], // top front
+        [14, 15, 11, 10], // top back
+        [15, 12, 8, 11], // top left
+        [13, 14, 10, 9], // top right
+    ];
+    polyhedron(points, faces);
 }
 
 
@@ -295,9 +291,14 @@ module nxn_unit(a, b, h) {
     size_b = b * u_size;
     height = h * u_height;
 
-    translate([0, 0, 0]) nxn_connector_bar(a, b);
-    nxn_connector_bar_ridge(a, b);
-    nxn_outer_wall(a, b, h);
+    nxn_connector_bar(a, b);
+
+    translate([0, 0, u_connector_height])
+        nxn_connector_bar_ridge(a, b);
+
+    translate([0, 0, u_connector_height + u_connector_ridge_height])
+        nxn_outer_wall(a, b, h);
+
     translate([0, 0, h*u_height - u_connector_height])
         nxn_connector_slot(a, b);
     
