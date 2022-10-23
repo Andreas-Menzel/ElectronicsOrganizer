@@ -261,13 +261,48 @@ module nxn_connector_slot(a, b) {
 }
 
 
+// This module creates a part for labeling. It also makes pulling the box out
+// of a case easier.
+module label() {
+    translate([0, u_wall_thickness, 0]) {
+        points = [
+            // bottom
+            [-(label_width_bottom - label_width) / 2, 0, 0],
+            [(label_width_bottom - label_width) / 2 + label_width, 0, 0],
+
+            // top
+            [-(label_width_back - label_width) / 2, 0, label_height],
+            [(label_width_back - label_width) / 2 + label_width, 0, label_height],
+            [label_width, label_depth + u_connector_width, label_height],
+            [0, label_depth + u_connector_width, label_height],
+        ];
+        faces = [
+            [2, 3, 1, 0], // front
+            [4, 5, 0, 1], // back
+            [0, 5, 2], // left
+            [1, 3, 4], // right
+  
+            [3, 2, 5, 4], // top
+        ];
+        polyhedron(points, faces);
+    }
+}
+
+
 // This module creates a box of size a x b x h.
 module nxn_unit(a, b, h) {
+    size_a = a * u_size;
+    size_b = b * u_size;
+    height = h * u_height;
+
     translate([0, 0, 0]) nxn_connector_bar(a, b);
     nxn_connector_bar_ridge(a, b);
     nxn_outer_wall(a, b, h);
     translate([0, 0, h*u_height - u_connector_height])
         nxn_connector_slot(a, b);
+    
+    translate([(size_a / 2) - (label_width / 2), 0, height - u_connector_height - label_height])
+        label();
 }
 
 
@@ -286,16 +321,18 @@ module nxn_connector_slot_mesh(a, b) {
 
 
 // For debugging: This cuts a box + mesh in half.
-if(false) {
+if(true) {
     difference() {
         union() {
             nxn_unit(2, 1, 2);
             translate([0, 0, -2])
                 nxn_connector_slot_mesh(2, 1);
         }
-        translate([0, 0, -2])
+        translate([0, u_size / 2, -2])
             cube([2*u_size, u_size / 2, 2*u_height + 2]);
     }
 }
 
-nxn_unit(3, 2, 1);
+//nxn_unit(1, 1, 1);
+//nxn_unit(3, 2, 1);
+//label();

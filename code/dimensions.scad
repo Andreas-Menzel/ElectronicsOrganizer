@@ -30,6 +30,20 @@ u_connector_clearance = 0.1;
 u_connector_ridge_height = 2.5;
 
 
+// The following values define the dimensions of the label
+
+// width
+label_width = 25;
+// width at the bottom. This creates a nice shape.
+label_width_bottom = 20;
+// width at the back. This creates a nice shape.
+label_width_back = 35;
+// depth
+label_depth = 8;
+// height
+label_height = 15;
+
+
 
 ////////////////////// DO NOT CHANGE THE FOLLOWING VALUES //////////////////////
 
