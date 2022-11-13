@@ -322,18 +322,34 @@ module nxn_connector_slot_mesh(a, b) {
 
 
 // For debugging: This cuts a box + mesh in half.
-if(true) {
+if(false) {
     difference() {
         union() {
-            nxn_unit(2, 1, 2);
-            translate([0, 0, -2])
-                nxn_connector_slot_mesh(2, 1);
+            nxn_unit(1, 1, 1);
+            //translate([0, 0, -2])
+                //nxn_connector_slot_mesh(2, 1);
         }
-        translate([0, u_size / 2, -2])
-            cube([2*u_size, u_size / 2, 2*u_height + 2]);
+        //translate([0, u_size / 2, -2])
+            //cube([2*u_size, u_size / 2, 2*u_height + 2]);
     }
 }
 
-//nxn_unit(1, 1, 1);
-//nxn_unit(3, 2, 1);
-//label();
+
+if(true) {
+    translate([0, 0, 0]) nxn_unit(2, 2, 1);
+    translate([3*u_size, 0, 0]) nxn_unit(3, 2, 1);
+
+    translate([0, 5*u_size, 0]) nxn_unit(1, 1, 1);
+    translate([2*u_size, 5*u_size, 0]) nxn_unit(2, 1, 1);
+
+    translate([5*u_size, 3*u_size, 0]) nxn_unit(1, 3, 1);
+    translate([0, 3*u_size, 0]) nxn_unit(4, 1, 1);
+
+    translate([0, -3*u_size, 0]) nxn_unit(3, 2, 2);
+    translate([4*u_size, -3*u_size, 0]) nxn_unit(2, 2, 2);
+
+    translate([-4*u_size, 0, 0]) nxn_connector_slot_mesh(3, 3);
+    translate([-4*u_size, 4*u_size, 0]) nxn_connector_slot_mesh(3, 2);
+
+    translate([-4*u_size, -3*u_size, 0]) nxn_unit(3, 2, 3);
+}
