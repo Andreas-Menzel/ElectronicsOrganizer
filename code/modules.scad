@@ -308,11 +308,47 @@ module nxn_unit(a, b, h) {
 
 
 // This module creates the base connector slot mesh.
-module nxn_connector_slot_mesh(a, b) {
-    for(i = [0 : 1 : a - 1]) {
-        for(j = [0 : 1 : b - 1]) {
-            translate([i*u_size, j*u_size, 0])
-                nxn_connector_slot(1, 1);
+module nxn_connector_slot_mesh(a, b, chamfer_l, chamfer_t, chamfer_r, chamfer_b) {
+    this_height = u_connector_height / 2;
+    this_width = u_connector_width;
+    module chamfer(length) {
+        // TODO: Calculate so that the minimum wall thickness is considered
+        translate([0, 0, this_height])
+                rotate([0, 90, 0])
+                linear_extrude(length) {
+            polygon(points = [[0, 0], [this_height, 0], [this_height, this_width]]);
+        }
+    }
+    
+    difference() {
+        // mesh
+        for(i = [0 : 1 : a - 1]) {
+            for(j = [0 : 1 : b - 1]) {
+                translate([i*u_size, j*u_size, 0])
+                    nxn_connector_slot(1, 1);
+            }
+        }
+
+        // chamfer(s)
+        union() {
+            if(chamfer_l) {
+                chamfer(a * u_size);
+            }
+            if(chamfer_t) {
+                translate([0, b * u_size, 0])
+                    rotate([0, 0, 270])
+                    chamfer(b * u_size);
+            }
+            if(chamfer_r) {
+                translate([a * u_size, b * u_size, 0])
+                    rotate([0, 0, 180])
+                    chamfer(a * u_size);
+            }
+            if(chamfer_t) {
+                translate([a * u_size, 0, 0])
+                    rotate([0, 0, 90])
+                    chamfer(b * u_size);
+            }
         }
     }
 }
@@ -326,16 +362,17 @@ if(false) {
     difference() {
         union() {
             nxn_unit(1, 1, 1);
-            //translate([0, 0, -2])
-                //nxn_connector_slot_mesh(2, 1);
+            translate([0, 0, -2])
+                nxn_connector_slot_mesh(2, 1);
         }
-        //translate([0, u_size / 2, -2])
-            //cube([2*u_size, u_size / 2, 2*u_height + 2]);
+        translate([0, u_size / 2, -2])
+            cube([2*u_size, u_size / 2, 2*u_height + 2]);
     }
 }
 
 
-if(true) {
+// For visualisation
+if(false) {
     translate([0, 0, 0]) nxn_unit(2, 2, 1);
     translate([3*u_size, 0, 0]) nxn_unit(3, 2, 1);
 
@@ -352,4 +389,30 @@ if(true) {
     translate([-4*u_size, 4*u_size, 0]) nxn_connector_slot_mesh(3, 2);
 
     translate([-4*u_size, -3*u_size, 0]) nxn_unit(3, 2, 3);
+}
+
+
+// For export via command line
+object = "mesh";
+size_a = 2; // box & mesh
+size_b = 3; // box & mesh
+height = 1; // box
+chamfer_l = true; // mesh
+chamfer_t = true; // mesh
+chamfer_r = true; // mesh
+chamfer_b = true; // mesh
+
+if(object == "box") {
+    assert(size_a > 0, "size_a must be greater than 0!");
+    assert(size_b > 0, "size_b must be greater than 0!");
+    assert(height > 0, "height must be greater than 0!");
+
+    nxn_unit(size_a, size_b, height);
+}
+
+if(object == "mesh") {
+    assert(size_a > 0, "size_a must be greater than 0!");
+    assert(size_b > 0, "size_b must be greater than 0!");
+
+    nxn_connector_slot_mesh(size_a, size_b, chamfer_l, chamfer_t, chamfer_r, chamfer_b);
 }
