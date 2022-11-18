@@ -7,6 +7,35 @@ box is always a multiple of the size of the base unit (1x1x1).
 
 ![](images/render/set_render.png)
 
+### File naming
+
+#### Box
+
+The boxes are located in `stl files/box/height <height>` with `<height>` as the
+unit-height of the box.
+
+The files are named `box_<size_a>x<size_b>x<height>.stl`.
+
+#### Mesh
+
+The meshes are located in `stl files/mesh/<type>` with type as one of the
+following:
+
+- `chamfer 1`: The mesh has a chamfer on one side.
+- `chamfer 2`: The mesh has a chamfer on two sides.
+- `chamfer 4`: The mesh has a chamfer on four sides.
+- `normal`: The mesh has no chamfer.
+
+The files are named `mesh_<size_a>x<size_b>_chamfer_<sides>` with `<sides>` as
+the following:
+
+- `l`: The mesh has a chamfer on the left side (looking from the top down).
+- `t`: The mesh has a chamfer on the top side (looking from the top down).
+- `r`: The mesh has a chamfer on the right side (looking from the top down).
+- `b`: The mesh has a chamfer on the bottom side (looking from the top down).
+
+`l`, `t`, `r` and `b` can be combined to `l+t`, `l+r`, etc.
+
 ### Modifying the box-dimensions
 
 The following two images show every parameter that can be changed in
