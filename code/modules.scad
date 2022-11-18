@@ -397,10 +397,10 @@ object = "mesh";
 size_a = 2; // box & mesh
 size_b = 3; // box & mesh
 height = 1; // box
-chamfer_l = true; // mesh
-chamfer_t = true; // mesh
-chamfer_r = true; // mesh
-chamfer_b = true; // mesh
+chamfer_l = false; // mesh
+chamfer_t = false; // mesh
+chamfer_r = false; // mesh
+chamfer_b = false; // mesh
 
 if(object == "box") {
     assert(size_a > 0, "size_a must be greater than 0!");
