@@ -2,8 +2,18 @@
 
 ## An in OpenSCAD designed electronics organizing grid-box system.
 
-You can export a box of any size. All boxes are stackable. The outer size of a
-box is always a multiple of the size of the base unit (1x1x1).
+You can export a box of any size. All boxes are stackable.
+
+The outer size of a box in x/y is always a multiple of the size of the base
+unit (1x1x1). For the height you need the following formula (due to the
+stacking-mechanism):
+
+```
+total_height = <h>*<u_height> - (<h> - 1) * <u_connector_height>
+```
+
+with `<h>` as the height multiplier.
+
 
 ![](images/render/set_render.png)
 
