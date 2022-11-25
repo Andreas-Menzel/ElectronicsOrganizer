@@ -344,7 +344,7 @@ module nxn_connector_slot_mesh(a, b, chamfer_l, chamfer_t, chamfer_r, chamfer_b)
                     rotate([0, 0, 180])
                     chamfer(a * u_size);
             }
-            if(chamfer_t) {
+            if(chamfer_b) {
                 translate([a * u_size, 0, 0])
                     rotate([0, 0, 90])
                     chamfer(b * u_size);
@@ -372,7 +372,7 @@ if(false) {
 
 
 // For visualisation
-if(false) {
+if(true) {
     translate([0, 0, 0]) nxn_unit(2, 2, 1);
     translate([3*u_size, 0, 0]) nxn_unit(3, 2, 1);
 
@@ -393,7 +393,7 @@ if(false) {
 
 
 // For export via command line
-object = "mesh";
+object = "none";
 size_a = 2; // box & mesh
 size_b = 3; // box & mesh
 height = 1; // box
