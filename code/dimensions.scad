@@ -24,7 +24,7 @@ u_connector_width = 3.5;
 u_connector_wall_thickness = 1.5;
 
 // clearance
-u_connector_clearance = 0.1;
+u_connector_clearance = 0.15;
 
 // additional height of connector bar
 u_connector_ridge_height = 2.5;
