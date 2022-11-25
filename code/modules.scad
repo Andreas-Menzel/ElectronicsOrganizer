@@ -142,7 +142,7 @@ module nxn_outer_wall(a, b, h) {
     size_b = b * u_size;
     
     connector_offset = u_wall_thickness + u_connector_clearance;
-    height = h*u_height - u_connector_height - u_connector_ridge_height - u_connector_height;
+    height = h*u_height - (u_connector_height + u_connector_ridge_height) - u_connector_height - (h-1)*u_connector_height;
     
     tmp_a = u_connector_ridge_height / tan(90 - connector_angle);
     tmp_top_width = connector_offset + connector_bar_plane_width - tmp_a;
@@ -289,7 +289,7 @@ module label() {
 module nxn_unit(a, b, h) {
     size_a = a * u_size;
     size_b = b * u_size;
-    height = h * u_height;
+    height = h*u_height - (u_connector_height + u_connector_ridge_height) - u_connector_height - (h-1)*u_connector_height;
 
     nxn_connector_bar(a, b);
 
@@ -299,10 +299,10 @@ module nxn_unit(a, b, h) {
     translate([0, 0, u_connector_height + u_connector_ridge_height])
         nxn_outer_wall(a, b, h);
 
-    translate([0, 0, h*u_height - u_connector_height])
+    translate([0, 0, height + (u_connector_height + u_connector_ridge_height)])
         nxn_connector_slot(a, b);
     
-    translate([(size_a / 2) - (label_width / 2), 0, height - u_connector_height - label_height])
+    translate([(size_a / 2) - (label_width / 2), 0, (height + (u_connector_height + u_connector_ridge_height)) - label_height])
         label();
 }
 
@@ -372,7 +372,7 @@ if(false) {
 
 
 // For visualisation
-if(true) {
+if(false) {
     translate([0, 0, 0]) nxn_unit(2, 2, 1);
     translate([3*u_size, 0, 0]) nxn_unit(3, 2, 1);
 
