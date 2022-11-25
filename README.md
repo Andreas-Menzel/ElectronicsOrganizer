@@ -22,9 +22,13 @@ with `<h>` as the height multiplier.
 #### Box
 
 The boxes are located in `stl files/box/height <height>` with `<height>` as the
-unit-height of the box.
+height multiplier of the box.
 
 The files are named `box_<size_a>x<size_b>x<height>.stl`.
+
+The orientation of the exported box is as followed:
+
+![](images/render/3x2x1_render.png)
 
 #### Mesh
 
